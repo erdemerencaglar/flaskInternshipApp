@@ -29,9 +29,61 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 20px;
         padding-right: 30px;
         padding-left: 10px;
+        box-shadow: rgba(0, 0, 0, 0.176) 0px 25px 10px -20px;
+        height: 50px;
+      }
+      h1 {
+        text-align: center;
+      }
+      button {
+        border: none;
+        background: transparent;
+        padding: 2%;
+        height: 30px;
+        width: 200px;
+        border-radius: 8px;
+        background-color: #002242df;
+        cursor: pointer;
+        color: #d8d8d8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .main-page-container {
+        display: flex;
+        flex-direction: column;
+        padding-left: 2%;
+        padding-right: 2%;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        gap: 30px;
+      }
+      .companies-can-be-applied {
+        padding-bottom: 2%;
+        padding-left: 2%;
+        padding-right: 2%;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+      }
+      .apply-form {
+        padding: 2%;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: baseline;
+        width: 60vw;
+        height: 40px;
+        align-self: center;
+      }
+      .form-control {
+        height: 24px;
+        padding: 4px;
+      }
+      h2 {
+        color: #213e5a;
       }
     </style>
   </head>
@@ -49,26 +101,32 @@
       {% if message is defined and message %}
       <div class="alert alert-warning">{{ message }}</div>
       {% endif %}
-      <div class="company-list-container">
-        <div class="company-information">
-          <div class="company-list-item-attr">Company Name</div>
-          <div class="company-list-item-attr">Company ID</div>
-          <div class="company-list-item-attr">Quota</div>
-          <div class="company-list-item-attr">City</div>
-          <div class="company-list-item-attr">Threshold</div>
+      <div class="companies-can-be-applied">
+        <h2>Companies that you can apply</h2>
+        <div class="company-list-container">
+          <div class="company-information">
+            <div class="company-list-item-attr">Company Name</div>
+            <div class="company-list-item-attr">Company ID</div>
+            <div class="company-list-item-attr">Quota</div>
+            <div class="company-list-item-attr">City</div>
+            <div class="company-list-item-attr">Threshold</div>
+          </div>
         </div>
-      </div>
-      <div>
-        {% for company in companies %}
-        <div class="company-list-item">
-          <div class="company-list-item-attr">{{ company.cname }}</div>
-          <div class="company-list-item-attr">{{ company.cid }}</div>
-          <div class="company-list-item-attr">{{ company.quota }}</div>
-          <div class="company-list-item-attr">{{ company.city }}</div>
-          <div class="company-list-item-attr">{{ company.gpa_threshold }}</div>
+        <div>
+          {% for company in companies %}
+          <div class="company-list-item">
+            <div class="company-list-item-attr">{{ company.cname }}</div>
+            <div class="company-list-item-attr">{{ company.cid }}</div>
+            <div class="company-list-item-attr">{{ company.quota }}</div>
+            <div class="company-list-item-attr">{{ company.city }}</div>
+            <div class="company-list-item-attr">
+              {{ company.gpa_threshold }}
+            </div>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-        <form action="{{ url_for('apply') }}" method="post">
+    </div>
+        <form action="{{ url_for('apply') }}" method="post" class="apply-form">
           <label for="companyid"
             >Company ID of the company you want to apply:</label
           >
@@ -79,9 +137,7 @@
             name="companyid"
             placeholder="Enter Company ID"
           />
-          <button type="submit" class="btn btn-primary">
-            Submit Application
-          </button>
+          <button type="submit" class="submit-button">Submit Application</button>
         </form>
       </div>
     </div>

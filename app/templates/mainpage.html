@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Companies</title>
+    <title>Main Page</title>
     <style>
       nav a {
         color: #d64161;
@@ -27,63 +27,110 @@
       }
       .company-list-item-cancel {
         width: 10%;
+        text-decoration: none;
       }
       .top-buttons-section {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 20px;
         padding-right: 30px;
         padding-left: 10px;
+        box-shadow: rgba(0, 0, 0, 0.176) 0px 25px 10px -20px;
+        height: 50px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .attr-title {
+        font-weight: bold;
+      }
+      .main-page-container {
+        display: flex;
+        flex-direction: column;
+        padding-left: 2%;
+        padding-right: 2%;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        gap: 30px;
+      }
+      .company-list-container {
+        margin-bottom: 8px;
+      }
+      .applied-companies-container {
+        padding: 2%;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+      }
+      button {
+        border: none;
+        background: transparent;
+        padding: 2%;
+        height: 30px;
+        width: 200px;
+        border-radius: 8px;
+        background-color: #002242df;
+        cursor: pointer;
+        color: #d8d8d8;
+      }
+      h2 {
+        color: #213e5a;
       }
     </style>
   </head>
   <body>
+    <div class="top-buttons-section">
+      <form action="{{ url_for('summary') }}" method="get">
+        <button class="btn btn-primary">Application Summary Page</button>
+      </form>
+      <form action="{{ url_for('logout') }}" method="post">
+        <button class="btn btn-primary" type="submit">Logout</button>
+      </form>
+    </div>
+    <h1>Internship Application System</h1>
+
     <div class="main-page-container">
-      <div class="top-buttons-section">
-        <form action="{{ url_for('summary') }}" method="get">
-          <button class="btn btn-primary">Application Summary Page</button>
-        </form>
-        <form action="{{ url_for('logout') }}" method="post">
-          <button class="btn btn-primary" type="submit">Logout</button>
-        </form>
-      </div>
-      <h1>Companies</h1>
-      {% if message is defined and message %}
-      <div class="alert alert-warning">{{ message }}</div>
-      {% endif %} {% if companies is defined and companies %}
-      <div class="company-list-container">
-        <div class="company-information">
-          <div class="company-list-item-attr">Company Name</div>
-          <div class="company-list-item-attr">Company ID</div>
-          <div class="company-list-item-attr">Quota</div>
-          <div class="company-list-item-attr">City</div>
-          <div class="company-list-item-attr">Threshold</div>
-          <div class="company-list-item-cancel"></div>
+      <div class="applied-companies-container">
+        <h2>Applied Companies</h2>
+        {% if message is defined and message %}
+        <div class="alert alert-warning">{{ message }}</div>
+        {% endif %} {% if companies is defined and companies %}
+        <div>
+          <div class="company-list-container">
+            <div class="company-information">
+              <div class="company-list-item-attr attr-title">Company Name</div>
+              <div class="company-list-item-attr attr-title">Company ID</div>
+              <div class="company-list-item-attr attr-title">Quota</div>
+              <div class="company-list-item-attr attr-title">City</div>
+              <div class="company-list-item-attr attr-title">Threshold</div>
+              <div class="company-list-item-cancel"></div>
+            </div>
+          </div>
+          {% else %}
+          <div>There is no company you have applied for an internship at!</div>
+          {% endif %}
+          <div>
+            {% for company in companies %}
+            <div class="company-list-item">
+              <div class="company-list-item-attr">{{ company.cname }}</div>
+              <div class="company-list-item-attr">{{ company.cid }}</div>
+              <div class="company-list-item-attr">{{ company.quota }}</div>
+              <div class="company-list-item-attr">{{ company.city }}</div>
+              <div class="company-list-item-attr">
+                {{ company.gpa_threshold }}
+              </div>
+              <a
+                href="{{'cancel/'+company.cid|string}}"
+                class="company-list-item-cancel"
+                >Cancel</a
+              >
+            </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
-      {% else %}
-      <div>There is no company you have applied for an internship at!</div>
-      {% endif %}
-      <div>
-        {% for company in companies %}
-        <div class="company-list-item">
-          <div class="company-list-item-attr">{{ company.cname }}</div>
-          <div class="company-list-item-attr">{{ company.cid }}</div>
-          <div class="company-list-item-attr">{{ company.quota }}</div>
-          <div class="company-list-item-attr">{{ company.city }}</div>
-          <div class="company-list-item-attr">{{ company.gpa_threshold }}</div>
-          <a
-            href="{{'cancel/'+company.cid|string}}"
-            class="company-list-item-cancel"
-            >Cancel</a
-          >
-        </div>
-        {% endfor %}
-        <form action="{{ url_for('apply') }}" method="get">
-          <button class="btn btn-primary">Apply for new internships</button>
-        </form>
-      </div>
+      <form action="{{ url_for('apply') }}" method="get">
+        <button class="btn btn-primary">Apply for new internships</button>
+      </form>
     </div>
   </body>
 </html>

@@ -29,9 +29,71 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 20px;
         padding-right: 30px;
         padding-left: 10px;
+        box-shadow: rgba(0, 0, 0, 0.176) 0px 25px 10px -20px;
+        height: 50px;
+      }
+      .city-app-count-section {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .city-app-count-item {
+        width: 30%;
+      }
+      h1 {
+        text-align: center;
+      }
+      .attr-title {
+        font-weight: bold;
+      }
+      .summary-page-container {
+        display: flex;
+        flex-direction: column;
+        padding-left: 2%;
+        padding-right: 2%;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 30px;
+      }
+      button {
+        border: none;
+        background: transparent;
+        padding: 2%;
+        height: 30px;
+        width: 200px;
+        border-radius: 8px;
+        background-color: #002242df;
+        cursor: pointer;
+        color: #d8d8d8;
+      }
+      .applied-companies-container {
+        padding: 1%;
+        min-width: 400px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+      }
+      .max-min-gpa-threshold-container {
+        padding: 1%;
+        min-width: 800px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+      }
+      .city-application-count-container {
+        padding: 1%;
+        min-width: 800px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+      }
+      .max-min-quota-container {
+        padding: 1%;
+        min-width: 800px;
+        border-radius: 16px;
+        box-shadow: rgba(0, 0, 2, 0.1) 0px 0px 16px;
+      }
+      h2 {
+        color: #213e5a;
       }
     </style>
   </head>
@@ -44,8 +106,8 @@
         <button class="btn btn-primary" type="submit">Logout</button>
       </form>
     </div>
-    <div class="main-page-container">
-      <h1>Application Summary Page</h1>
+    <h1>Application Summary Page</h1>
+    <div class="summary-page-container">
       <div class="applied-companies-container">
         <h2>Applied Companies</h2>
         {% if message is defined and message %}
@@ -53,20 +115,16 @@
         {% endif %}
         <div class="company-list-container">
           <div class="company-information">
-            <div class="company-list-item-attr">Company Name</div>
-            <div class="company-list-item-attr">Company ID</div>
-            <div class="company-list-item-attr">Quota</div>
-            <div class="company-list-item-attr">City</div>
-            <div class="company-list-item-attr">Threshold</div>
+            <div class="company-list-item-attr attr-title">Company Name</div>
+            <div class="company-list-item-attr attr-title">Quota</div>
+            <div class="company-list-item-attr attr-title">GPA Threshold</div>
           </div>
         </div>
         <div>
           {% for company in appliedCompanies %}
           <div class="company-list-item">
             <div class="company-list-item-attr">{{ company.cname }}</div>
-            <div class="company-list-item-attr">{{ company.cid }}</div>
             <div class="company-list-item-attr">{{ company.quota }}</div>
-            <div class="company-list-item-attr">{{ company.city }}</div>
             <div class="company-list-item-attr">
               {{ company.gpa_threshold }}
             </div>
@@ -75,7 +133,7 @@
         </div>
       </div>
       <div class="max-min-gpa-threshold-container">
-        <h2>Maximum and Minimum GPA Threshold of Companies Applied</h2>
+        <h2>Maximum and Minimum GPA Thresholds of Companies Applied</h2>
         {% if mingpa is defined and mingpa %}
         <div>
           Minimum GPA threshold of the applied companies: {{
@@ -88,8 +146,35 @@
         </div>
         {% endif %}
       </div>
-      <div class="3applied-companies-container"></div>
-      <div class="4applied-companies-container"></div>
+      <div class="city-application-count-container">
+        <h2>Number of Internship Applications per City</h2>
+        <div class="city-app-count-section">
+          <div class="city-app-count-item attr-title">City</div>
+          <div class="city-app-count-item attr-title">Application Count</div>
+        </div>
+        {% for cityAppCountRow in citiesAppCount %}
+        <div class="city-app-count-section">
+          <div class="city-app-count-item">{{cityAppCountRow.city}}</div>
+          <div class="city-app-count-item">
+            {{cityAppCountRow.application_count}}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="max-min-quota-container">
+        <h2>Companies with Maximum and Minimum Quota</h2>
+        {% if minquota is defined and mingpa %}
+        <div>
+          Company with the Minimum Quota that you applied: {{
+          minquota.company_with_min_quota }}
+        </div>
+        {% endif %} {% if maxquota is defined and maxgpa %}
+        <div>
+          Company with the Maximum Quota that you applied: {{
+          maxquota.company_with_max_quota }}
+        </div>
+        {% endif %}
+      </div>
     </div>
   </body>
 </html>

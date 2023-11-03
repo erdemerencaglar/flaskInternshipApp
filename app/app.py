@@ -152,15 +152,15 @@ def logout():
     
 
 
-# TODO: 1. List the name, quota, and gpa-thresholds of the companies applied by the student, in descending order of quotas.
+# 1. List the name, quota, and gpa-thresholds of the companies applied by the student, in descending order of quotas.
 
-# TODO: 2. Find the maximum and minimum gpa-thresholds of the companies applied by the student.
+# 2. Find the maximum and minimum gpa-thresholds of the companies applied by the student.
 # Name the attributes of the resulting table as max-gpa-threshold and min-gpa-threshold, respectively.
 
-# TODO: 3. Find the number of companies applied by the student in each city. Name the attributes of the
+# 3. Find the number of companies applied by the student in each city. Name the attributes of the
 # resulting table as city and application-count.
 
-# TODO: 4. Give the names of the companies applied by the student with the maximum and minimum
+# 4. Give the names of the companies applied by the student with the maximum and minimum
 # quotas. Name the attributes of the resulting table as company-with-max-quota and companywith-min-quota, respectively. 
 @app.route('/summary', methods =['GET', 'POST'])
 def summary():
@@ -173,7 +173,13 @@ def summary():
     maxgpa = cursor.fetchone()
     cursor.execute('SELECT FORMAT(MIN(gpa_threshold),2) AS min_gpa_threshold FROM company natural join apply WHERE sid = % s', (session['userid'],))
     mingpa = cursor.fetchone()
-    return render_template('summary.html', appliedCompanies = appliedCompanies, maxgpa = maxgpa, mingpa = mingpa)
+    cursor.execute('SELECT COUNT(*) AS application_count, city FROM company natural join apply WHERE sid = % s GROUP BY city', (session['userid'],))
+    citiesAppCount = cursor.fetchall()
+    cursor.execute('SELECT cname as company_with_min_quota FROM company NATURAL JOIN (SELECT MIN(quota) as quota FROM company natural join apply WHERE sid = % s) AS MIN_QUOTA', (session['userid'],))
+    minquota = cursor.fetchone()
+    cursor.execute('SELECT cname as company_with_max_quota FROM company NATURAL JOIN (SELECT MAX(quota) as quota FROM company natural join apply WHERE sid = % s) AS MAX_QUOTA', (session['userid'],))
+    maxquota = cursor.fetchone()
+    return render_template('summary.html', appliedCompanies = appliedCompanies, maxgpa = maxgpa, mingpa = mingpa, citiesAppCount = citiesAppCount, minquota = minquota, maxquota = maxquota)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))

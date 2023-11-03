@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Companies</title>
+    <style>
+      nav a {
+        color: #d64161;
+        font-size: 3em;
+        margin-left: 50px;
+        text-decoration: none;
+      }
+      .company-information {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90vw;
+      }
+      .company-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90vw;
+      }
+      .company-list-item-attr {
+        width: 20%;
+      }
+      .company-list-item-cancel {
+        width: 10%;
+      }
+      .top-buttons-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 20px;
+        padding-right: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-page-container">
+      <div class="top-buttons-section">
+        <form action="{{ url_for('summary') }}" method="get">
+          <button class="btn btn-primary">Application Summary Page</button>
+        </form>
+        <form action="{{ url_for('logout') }}" method="post">
+          <button class="btn btn-primary" type="submit">Logout</button>
+        </form>
+      </div>
+      <h1>Companies</h1>
+      {% if message is defined and message %}
+      <div class="alert alert-warning">{{ message }}</div>
+      {% endif %} {% if companies is defined and companies %}
+      <div class="company-list-container">
+        <div class="company-information">
+          <div class="company-list-item-attr">Company Name</div>
+          <div class="company-list-item-attr">Company ID</div>
+          <div class="company-list-item-attr">Quota</div>
+          <div class="company-list-item-attr">City</div>
+          <div class="company-list-item-attr">Threshold</div>
+          <div class="company-list-item-cancel"></div>
+        </div>
+      </div>
+      {% else %}
+      <div>There is no company you have applied for an internship at!</div>
+      {% endif %}
+      <div>
+        {% for company in companies %}
+        <div class="company-list-item">
+          <div class="company-list-item-attr">{{ company.cname }}</div>
+          <div class="company-list-item-attr">{{ company.cid }}</div>
+          <div class="company-list-item-attr">{{ company.quota }}</div>
+          <div class="company-list-item-attr">{{ company.city }}</div>
+          <div class="company-list-item-attr">{{ company.gpa_threshold }}</div>
+          <a
+            href="{{'cancel/'+company.cid|string}}"
+            class="company-list-item-cancel"
+            >Cancel</a
+          >
+        </div>
+        {% endfor %}
+        <form action="{{ url_for('apply') }}" method="get">
+          <button class="btn btn-primary">Apply for new internships</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Apply</title>
+    <style>
+      nav a {
+        color: #d64161;
+        font-size: 3em;
+        margin-left: 50px;
+        text-decoration: none;
+      }
+      .company-information {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90vw;
+      }
+      .company-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90vw;
+      }
+      .company-list-item-attr {
+        width: 20%;
+      }
+      .top-buttons-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 20px;
+        padding-right: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-buttons-section">
+      <form action="{{ url_for('mainpage') }}" method="get">
+        <button class="btn btn-primary">Back to Main Page</button>
+      </form>
+      <form action="{{ url_for('logout') }}" method="post">
+        <button class="btn btn-primary" type="submit">Logout</button>
+      </form>
+    </div>
+    <div class="main-page-container">
+      <h1>Application Summary Page</h1>
+      <div class="applied-companies-container">
+        <h2>Applied Companies</h2>
+        {% if message is defined and message %}
+        <div class="alert alert-warning">{{ message }}</div>
+        {% endif %}
+        <div class="company-list-container">
+          <div class="company-information">
+            <div class="company-list-item-attr">Company Name</div>
+            <div class="company-list-item-attr">Company ID</div>
+            <div class="company-list-item-attr">Quota</div>
+            <div class="company-list-item-attr">City</div>
+            <div class="company-list-item-attr">Threshold</div>
+          </div>
+        </div>
+        <div>
+          {% for company in appliedCompanies %}
+          <div class="company-list-item">
+            <div class="company-list-item-attr">{{ company.cname }}</div>
+            <div class="company-list-item-attr">{{ company.cid }}</div>
+            <div class="company-list-item-attr">{{ company.quota }}</div>
+            <div class="company-list-item-attr">{{ company.city }}</div>
+            <div class="company-list-item-attr">
+              {{ company.gpa_threshold }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="max-min-gpa-threshold-container">
+        <h2>Maximum and Minimum GPA Threshold of Companies Applied</h2>
+        {% if mingpa is defined and mingpa %}
+        <div>
+          Minimum GPA threshold of the applied companies: {{
+          mingpa.min_gpa_threshold }}
+        </div>
+        {% endif %} {% if maxgpa is defined and maxgpa %}
+        <div>
+          Maximum GPA threshold of the applied companies: {{
+          maxgpa.max_gpa_threshold }}
+        </div>
+        {% endif %}
+      </div>
+      <div class="3applied-companies-container"></div>
+      <div class="4applied-companies-container"></div>
+    </div>
+  </body>
+</html>

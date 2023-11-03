@@ -1,0 +1,73 @@
+<form action="{{ url_for('login') }}" method="get">
+  <button class="btn btn-primary">Go to Login Page</button>
+</form>
+
+<form action="{{ url_for('register') }}" method="post">
+  {% if message is defined and message %}
+  <div class="alert alert-warning">{{ message }}</div>
+  {% endif %}
+
+  <div class="form-group">
+    <label for="sname">Student Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="sname"
+      name="sname"
+      placeholder="Enter name"
+    />
+  </div>
+  <div class="form-group">
+    <label for="studentid">Student ID:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="studentid"
+      name="studentid"
+      placeholder="Enter student ID"
+    />
+  </div>
+  <div class="form-group">
+    <label for="bdate">Birth Date:</label>
+    <input
+      type="date"
+      class="form-control"
+      id="bdate"
+      name="bdate"
+      placeholder="Enter birth date"
+    />
+  </div>
+  <div class="form-group">
+    <label for="dept">Department:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="dept"
+      name="dept"
+      placeholder="Enter department"
+    />
+  </div>
+  <div class="form-group">
+    <label for="year">Year:</label>
+    <input
+      type="number"
+      class="form-control"
+      id="year"
+      name="year"
+      placeholder="Enter year"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="gpa">GPA:</label>
+    <input
+      type="number"
+      class="form-control"
+      id="gpa"
+      name="gpa"
+      placeholder="Enter GPA"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>

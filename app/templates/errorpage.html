@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Apply</title>
+    <style>
+      nav a {
+        color: #d64161;
+        font-size: 3em;
+        margin-left: 50px;
+        text-decoration: none;
+      }
+      .top-buttons-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 20px;
+        padding-right: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-buttons-section">
+      <form action="{{ url_for('mainpage') }}" method="get">
+        <button class="btn btn-primary">Back to Main Page</button>
+      </form>
+      <form action="{{ url_for('logout') }}" method="post">
+        <button class="btn btn-primary" type="submit">Logout</button>
+      </form>
+    </div>
+
+    <div class="main-page-container">
+      <h1>Error</h1>
+      {% if message is defined and message %}
+      <div class="alert alert-warning">{{ message }}</div>
+      {% endif %}
+    </div>
+  </body>
+</html>

@@ -50,7 +50,7 @@
         padding-left: 2%;
         padding-right: 2%;
         justify-content: space-evenly;
-        align-items: flex-start;
+        align-items: center;
         gap: 30px;
       }
       .company-list-container {
@@ -71,9 +71,19 @@
         background-color: #002242df;
         cursor: pointer;
         color: #d8d8d8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       h2 {
         color: #213e5a;
+      }
+      .apply-for-new-form {
+        display: flex;
+        align-self: center;
+        justify-content: center;
+        align-items: center;
+        width: 200px;
       }
     </style>
   </head>
@@ -93,8 +103,9 @@
         <h2>Applied Companies</h2>
         {% if message is defined and message %}
         <div class="alert alert-warning">{{ message }}</div>
-        {% endif %} {% if companies is defined and companies %}
+        {% endif %}
         <div>
+          {% if companies is defined and companies %}
           <div class="company-list-container">
             <div class="company-information">
               <div class="company-list-item-attr attr-title">Company Name</div>
@@ -128,7 +139,11 @@
           </div>
         </div>
       </div>
-      <form action="{{ url_for('apply') }}" method="get">
+      <form
+        action="{{ url_for('apply') }}"
+        method="get"
+        class="apply-for-new-form"
+      >
         <button class="btn btn-primary">Apply for new internships</button>
       </form>
     </div>

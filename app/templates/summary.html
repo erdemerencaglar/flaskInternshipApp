@@ -108,6 +108,7 @@
     </div>
     <h1>Application Summary Page</h1>
     <div class="summary-page-container">
+      {% if appliedCompanies is defined and appliedCompanies %}
       <div class="applied-companies-container">
         <h2>Applied Companies</h2>
         {% if message is defined and message %}
@@ -175,6 +176,9 @@
         </div>
         {% endif %}
       </div>
+      {% else %}
+      <div>There is no applied companies!</div>
+      {% endif %}
     </div>
   </body>
 </html>
